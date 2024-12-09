@@ -1,20 +1,20 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 import tensorflow as tf
-# from tensorflow.keras.models import load_model
 import pickle
+from tensorflow.keras import metrics
 
 # Load model dan preprocessors
-model = tf.keras.models.load_model('budget_suggestion_model.h5', compile=False)
-with open('label_encoder.pkl', 'rb') as file:
-    le_category = pickle.load(file)
-with open('scaler.pkl', 'rb') as file:
-    scaler = pickle.load(file)
+model = tf.keras.models.load_model('budget_suggestion_model.h5', custom_objects={'mse': metrics.MeanSquaredError()})
+with open('label_encoder.pkl', 'rb') as f:
+    le_category = pickle.load(f)
+with open('scaler.pkl', 'rb') as f:
+    scaler = pickle.load(f)
 
 # Initialize Flask app
 app = Flask(__name__)
 
-@app.route('/suggest_budget', methods=['POST'])
+@app.route('/suggest_budget', methods=["GET", "POST"])
 def suggest_budget():
     # Ambil data dari request
     data = request.get_json()
