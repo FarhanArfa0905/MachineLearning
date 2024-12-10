@@ -257,7 +257,7 @@ print("Budget Recommendations:")
 print(recommendations_df)
 
 # Filter recommendations for a specific user
-user_to_display = 'User_59'  # Ganti dengan user yang ingin ditampilkan
+user_to_display = '59'  # Ganti dengan user yang ingin ditampilkan
 filtered_recommendations_df = recommendations_df[recommendations_df['User'] == user_to_display]
 
 # Display filtered recommendations
