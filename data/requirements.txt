@@ -6,6 +6,7 @@ charset-normalizer==3.4.0
 click==8.1.7
 colorama==0.4.6
 Flask==3.1.0
+Flask-Cors==3.0.10
 flatbuffers==24.3.25
 gast==0.6.0
 google-pasta==0.2.0
@@ -23,6 +24,7 @@ markdown-it-py==3.0.0
 MarkupSafe==3.0.2
 mdurl==0.1.2
 ml-dtypes==0.4.1
+mysql-connector-python==8.1.0
 namex==0.0.8
 numpy==2.0.2
 opt_einsum==3.4.0
@@ -33,6 +35,7 @@ pillow==11.0.0
 protobuf==5.29.1
 Pygments==2.18.0
 python-dateutil==2.9.0.post0
+pytest==7.4.2 
 pytz==2024.2
 requests==2.32.3
 rich==13.9.4
