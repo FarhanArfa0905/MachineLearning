@@ -46,7 +46,7 @@ def suggest_budget():
 
     cursor.execute("""
         SELECT user_id, date, amount, category, type
-        FROM transactions
+        FROM Transactions
         WHERE user_id = %s
     """, (user_id,))
     transactions = cursor.fetchall()
@@ -99,7 +99,7 @@ def train_model():
 
     cursor.execute("""
         SELECT user_id, amount, category, type, date
-        FROM transactions
+        FROM Transactions
     """)
     transactions = cursor.fetchall()
     connection.close()
