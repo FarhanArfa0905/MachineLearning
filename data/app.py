@@ -9,12 +9,17 @@ import mysql.connector
 if not tf.executing_eagerly():
     tf.compat.v1.enable_eager_execution()
 
+# Cek dan cetak versi TensorFlow
+logging.basicConfig(level=logging.INFO)
+logging.info(f"TensorFlow version: {tf.__version__}")
+
 # Load model dan preprocessors
-model = tf.keras.models.load_model('budget_suggestion_model.h5', custom_objects={'mse': metrics.MeanSquaredError()})
-with open('label_encoder.pkl', 'rb') as f:
+model = tf.keras.models.load_model('data/budget_suggestion_model.h5', custom_objects={'mse': metrics.MeanSquaredError()})
+with open('data/label_encoder.pkl', 'rb') as f:
     le_category = pickle.load(f)
-with open('scaler.pkl', 'rb') as f:
+with open('data/scaler.pkl', 'rb') as f:
     scaler = pickle.load(f)
+
 
 # Koneksi ke database MySQL
 def get_db_connection():
