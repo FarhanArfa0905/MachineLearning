@@ -35,20 +35,20 @@ app = Flask(__name__)
 @app.route('/suggest_budget', methods=["POST"])
 def suggest_budget():
     data = request.get_json()
-    user_id = data.get('user_id')
+    userId = data.get('userId')
     
-    if not user_id:
+    if not userId:
         return jsonify({"error": "User ID is required"}), 400
 
-    # Koneksi ke database dan ambil data transaksi untuk user_id tertentu
+    # Koneksi ke database dan ambil data transaksi untuk userId tertentu
     connection = get_db_connection()
     cursor = connection.cursor(dictionary=True)
 
     cursor.execute("""
-        SELECT user_id, date, amount, category, type
+        SELECT userId, date, amount, category, type
         FROM Transactions
-        WHERE user_id = %s
-    """, (user_id,))
+        WHERE userId = %s
+    """, (userId,))
     transactions = cursor.fetchall()
     connection.close()
 
@@ -98,7 +98,7 @@ def train_model():
     cursor = connection.cursor(dictionary=True)
 
     cursor.execute("""
-        SELECT user_id, amount, category, type, date
+        SELECT userId, amount, category, type, date
         FROM Transactions
     """)
     transactions = cursor.fetchall()
