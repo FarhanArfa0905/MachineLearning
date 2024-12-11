@@ -1,4 +1,4 @@
-user_id,date,category,amount,type
+userId,date,category,amount,type
 1,9/1/2024 12:04,Food & Drink,50000,Expense
 1,9/2/2024 14:43,Transportation,50000,Expense
 1,9/3/2024 10:26,Digital,52000,Expense

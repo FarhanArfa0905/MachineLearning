@@ -204,23 +204,23 @@ print("Model and preprocessors saved successfully.")
 # and for each category he have 3 category did he use in transaction in 3 month period
 # Food = 39.56% transport = 31.56 others = 28.88 and will do recommendation each persent * total expense
 # and in the next the budgeting will different depend history he doing in transactions.
-def generate_recommendations(data, user_id_col='user_id', categories_col='category_encoded', amount_col='amount', le_category=None):
+def generate_recommendations(data, userID_col='userId', categories_col='category_encoded', amount_col='amount', le_category=None):
     """
     Generate dynamic budget recommendations based on user spending patterns over all available months.
     """
     # Group data by user and category to sum expenses
-    user_expenses = data.groupby([user_id_col, categories_col])[amount_col].sum().reset_index()
+    user_expenses = data.groupby([userID_col, categories_col])[amount_col].sum().reset_index()
 
     # Calculate total expenses per user
-    total_expenses = user_expenses.groupby(user_id_col)[amount_col].sum()
+    total_expenses = user_expenses.groupby(userID_col)[amount_col].sum()
 
     recommendations = {}
     for user, total in total_expenses.items():
         # User specific data
-        user_data = user_expenses[user_expenses[user_id_col] == user]
+        user_data = user_expenses[user_expenses[userID_col] == user]
 
         # Months of data available for the user
-        num_months = data[data[user_id_col] == user]['month'].nunique()
+        num_months = data[data[userID_col] == user]['month'].nunique()
 
         # Calculate average monthly expenses
         monthly_average = total / num_months if num_months else 0
@@ -236,9 +236,9 @@ def generate_recommendations(data, user_id_col='user_id', categories_col='catego
     return recommendations
 
 # Example of using this function
-# Call by user_id
+# Call by userId
 budget_recommendations = generate_recommendations(filtered_data,
-                                                  user_id_col='user_id',
+                                                  userID_col='userId',
                                                   categories_col='category_encoded',
                                                   amount_col='amount',
                                                   le_category=le_category)

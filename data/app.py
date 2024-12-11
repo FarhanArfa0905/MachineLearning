@@ -120,8 +120,8 @@ def train_model():
     dataset = preprocess_data(dataset)
 
     # Split fitur dan label
-    X = dataset[['amount_scaled', 'month', 'day', 'category_encoded']]
-    y = dataset['amount']
+    X = dataset[['category_encoded', 'month', 'day']].values
+    y = dataset['amount_scaled'].values
 
     # Retrain model
     model.fit(X, y, epochs=10, verbose=1)
