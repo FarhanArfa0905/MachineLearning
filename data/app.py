@@ -96,49 +96,5 @@ def suggest_budget():
 
     return jsonify(recommendations)
 
-@app.route('/train_model', methods=["POST"])
-def train_model():
-    # Koneksi ke database dan ambil semua data transaksi
-    connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
-
-    cursor.execute("""
-        SELECT userId, amount, category, type, date
-        FROM Transactions
-    """)
-    transactions = cursor.fetchall()
-    connection.close()
-
-    if not transactions:
-        return jsonify({"error": "No transaction data available"}), 404
-
-    # Convert data transaksi menjadi DataFrame
-    dataset = pd.DataFrame(transactions)
-    dataset['date'] = pd.to_datetime(dataset['date'])
-
-    # Filter hanya data Expense
-    dataset = dataset[dataset['type'] == 'Expense']
-
-    # Preprocessing data
-    dataset['month'] = dataset['date'].dt.month
-    dataset['day'] = dataset['date'].dt.day
-    dataset = preprocess_data(dataset)
-
-    # Split fitur dan label
-    X = dataset[['category_encoded', 'month', 'day']].values
-    y = dataset['amount_scaled'].values
-
-    # Retrain model
-    model.fit(X, y, epochs=10, verbose=1)
-
-    # Save updated model and preprocessors
-    model.save('budget_suggestion_model.h5')
-    with open('label_encoder.pkl', 'wb') as f:
-        pickle.dump(le_category, f)
-    with open('scaler.pkl', 'wb') as f:
-        pickle.dump(scaler, f)
-
-    return jsonify({"message": "Model retrained successfully"})
-
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=8080)
